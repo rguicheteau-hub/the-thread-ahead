@@ -1,0 +1,1389 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<!--
+   ______                            __
+  / ____/___  ____ ___  ____  __  __/ /____  _____
+ / /   / __ \/ __ `__ \/ __ \/ / / / __/ _ \/ ___/
+/ /___/ /_/ / / / / / / /_/ / /_/ / /_/  __/ /
+\____/\____/_/ /_/ /_/ .___/\__,_/\__/\___/_/
+                    /_/
+        Created with Perplexity Computer
+        https://www.perplexity.ai/computer
+-->
+
+<!-- Perplexity Computer Attribution — SEO Meta Tags -->
+<meta name="generator" content="Perplexity Computer">
+<meta name="author" content="Perplexity Computer">
+<meta property="og:see_also" content="https://www.perplexity.ai/computer">
+<link rel="author" href="https://www.perplexity.ai/computer">
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Thread Ahead — Breaking News Aggregator</title>
+<meta name="description" content="Breaking news aggregated from major outlets. Clear, factual, no hype.">
+<meta property="og:title" content="The Thread Ahead — Breaking News Aggregator">
+<meta property="og:description" content="Breaking news aggregated from major outlets. Clear, factual, no hype.">
+
+<!-- Fonts -->
+<link href="https://api.fontshare.com/v2/css?f[]=satoshi@300,400,500,600,700&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+
+<style>
+/* base.css */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html {
+  -moz-text-size-adjust: none;
+  -webkit-text-size-adjust: none;
+  text-size-adjust: none;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+  scroll-behavior: smooth;
+  hanging-punctuation: first last;
+  scroll-padding-top: var(--space-16);
+}
+
+body {
+  min-height: 100dvh;
+  line-height: 1.6;
+  font-family: var(--font-body, sans-serif);
+  font-size: var(--text-base);
+  color: var(--color-text);
+  background-color: var(--color-bg);
+}
+
+img, picture, video, canvas, svg { display: block; max-width: 100%; height: auto; }
+ul[role="list"], ol[role="list"] { list-style: none; }
+input, button, textarea, select { font: inherit; color: inherit; }
+
+h1, h2, h3, h4, h5, h6 { text-wrap: balance; line-height: 1.15; }
+p, li, figcaption { text-wrap: pretty; max-width: 72ch; }
+
+::selection {
+  background: var(--color-accent-muted, rgba(200, 50, 30, 0.2));
+  color: var(--color-text);
+}
+
+:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 3px;
+  border-radius: var(--radius-sm);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+button { cursor: pointer; background: none; border: none; }
+table { border-collapse: collapse; width: 100%; }
+
+a, button, [role="button"], [role="link"], input, textarea, select {
+  transition: color var(--transition-interactive),
+              background var(--transition-interactive),
+              border-color var(--transition-interactive),
+              box-shadow var(--transition-interactive);
+}
+
+.sr-only {
+  position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px;
+  overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border-width: 0;
+}
+</style>
+<style>
+/* ===== DESIGN TOKENS ===== */
+:root {
+  /* Type Scale */
+  --text-xs:   clamp(0.75rem,  0.7rem  + 0.25vw, 0.875rem);
+  --text-sm:   clamp(0.875rem, 0.8rem  + 0.35vw, 1rem);
+  --text-base: clamp(1rem,     0.95rem + 0.25vw, 1.125rem);
+  --text-lg:   clamp(1.125rem, 1rem    + 0.75vw, 1.5rem);
+  --text-xl:   clamp(1.5rem,   1.2rem  + 1.25vw, 2.25rem);
+  --text-2xl:  clamp(2rem,     1.2rem  + 2.5vw,  3.5rem);
+
+  /* Spacing */
+  --space-1:  0.25rem;
+  --space-2:  0.5rem;
+  --space-3:  0.75rem;
+  --space-4:  1rem;
+  --space-5:  1.25rem;
+  --space-6:  1.5rem;
+  --space-8:  2rem;
+  --space-10: 2.5rem;
+  --space-12: 3rem;
+  --space-16: 4rem;
+  --space-20: 5rem;
+  --space-24: 6rem;
+  --space-32: 8rem;
+
+  /* Radius */
+  --radius-sm: 0.375rem;
+  --radius-md: 0.5rem;
+  --radius-lg: 0.75rem;
+  --radius-xl: 1rem;
+  --radius-full: 9999px;
+
+  /* Transitions */
+  --transition-interactive: 180ms cubic-bezier(0.16, 1, 0.3, 1);
+
+  /* Content widths */
+  --content-narrow: 640px;
+  --content-default: 960px;
+  --content-wide: 1200px;
+
+  /* Fonts */
+  --font-display: 'Instrument Serif', Georgia, serif;
+  --font-body: 'Satoshi', 'Inter', sans-serif;
+}
+
+/* ===== LIGHT MODE ===== */
+:root, [data-theme="light"] {
+  --color-bg:             #f5f4f0;
+  --color-surface:        #ffffff;
+  --color-surface-2:      #fafaf8;
+  --color-surface-offset: #eeeee9;
+  --color-border:         #d4d4cc;
+  --color-divider:        #e0e0da;
+  --color-text:           #1a1a1f;
+  --color-text-muted:     #6a6a72;
+  --color-text-faint:     #9a9aa0;
+  --color-text-inverse:   #f5f4f0;
+  --color-accent:         #c4301e;
+  --color-accent-hover:   #a52818;
+  --color-accent-muted:   rgba(196, 48, 30, 0.1);
+  --color-link:           #1a6da8;
+  --color-link-hover:     #145a8a;
+
+  --shadow-sm: 0 1px 3px rgba(0,0,0,0.06);
+  --shadow-md: 0 4px 12px rgba(0,0,0,0.08);
+  --shadow-lg: 0 12px 32px rgba(0,0,0,0.12);
+}
+
+/* ===== DARK MODE ===== */
+[data-theme="dark"] {
+  --color-bg:             #0e0e10;
+  --color-surface:        #16161a;
+  --color-surface-2:      #1c1c22;
+  --color-surface-offset: #1a1a20;
+  --color-border:         #2a2a32;
+  --color-divider:        #222228;
+  --color-text:           #e4e4e8;
+  --color-text-muted:     #8a8a94;
+  --color-text-faint:     #55555e;
+  --color-text-inverse:   #0e0e10;
+  --color-accent:         #d4382c;
+  --color-accent-hover:   #b8301f;
+  --color-accent-muted:   rgba(212, 56, 44, 0.15);
+  --color-link:           #6ea8d7;
+  --color-link-hover:     #8fc0ea;
+
+  --shadow-sm: 0 1px 2px rgba(0,0,0,0.3);
+  --shadow-md: 0 4px 16px rgba(0,0,0,0.4);
+  --shadow-lg: 0 12px 40px rgba(0,0,0,0.5);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme]) {
+    --color-bg:             #0e0e10;
+    --color-surface:        #16161a;
+    --color-surface-2:      #1c1c22;
+    --color-surface-offset: #1a1a20;
+    --color-border:         #2a2a32;
+    --color-divider:        #222228;
+    --color-text:           #e4e4e8;
+    --color-text-muted:     #8a8a94;
+    --color-text-faint:     #55555e;
+    --color-text-inverse:   #0e0e10;
+    --color-accent:         #d4382c;
+    --color-accent-hover:   #b8301f;
+    --color-accent-muted:   rgba(212, 56, 44, 0.15);
+    --color-link:           #6ea8d7;
+    --color-link-hover:     #8fc0ea;
+
+    --shadow-sm: 0 1px 2px rgba(0,0,0,0.3);
+    --shadow-md: 0 4px 16px rgba(0,0,0,0.4);
+    --shadow-lg: 0 12px 40px rgba(0,0,0,0.5);
+  }
+}
+
+/* ===== HEADER ===== */
+.header {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  background: var(--color-bg);
+  background: color-mix(in srgb, var(--color-bg) 92%, transparent);
+  backdrop-filter: blur(16px);
+  border-bottom: 1px solid var(--color-divider);
+}
+.header-inner {
+  max-width: var(--content-wide);
+  margin: 0 auto;
+  padding: var(--space-4) var(--space-6);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-4);
+}
+.header-left { display: flex; align-items: center; }
+.logo {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  text-decoration: none;
+  color: var(--color-text);
+}
+.logo svg { flex-shrink: 0; }
+.logo-text {
+  font-family: var(--font-display);
+  font-size: var(--text-xl);
+  letter-spacing: -0.02em;
+  line-height: 1;
+}
+.header-right {
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+}
+.header-timestamp {
+  font-size: var(--text-xs);
+  color: var(--color-text-faint);
+  white-space: nowrap;
+}
+[data-theme-toggle] {
+  padding: var(--space-2);
+  color: var(--color-text-muted);
+  border-radius: var(--radius-md);
+  display: flex;
+  align-items: center;
+}
+[data-theme-toggle]:hover { color: var(--color-text); background: var(--color-surface-2); }
+
+/* Make Button */
+.make-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: var(--space-2) var(--space-4);
+  font-size: var(--text-sm);
+  font-weight: 600;
+  color: #fff;
+  background: #6d3eff;
+  border-radius: var(--radius-full);
+  text-decoration: none;
+  white-space: nowrap;
+  line-height: 1.4;
+}
+.make-btn:hover { background: #5a2dd6; }
+.make-btn svg { flex-shrink: 0; }
+
+/* Nav Dropdown */
+.nav-dropdown {
+  position: relative;
+}
+.nav-dropdown-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: var(--space-2) var(--space-4);
+  font-size: var(--text-sm);
+  font-weight: 600;
+  color: #fff;
+  background: #6d3eff;
+  border-radius: var(--radius-full);
+  border: none;
+  cursor: pointer;
+  white-space: nowrap;
+  line-height: 1.4;
+}
+.nav-dropdown-toggle:hover { background: #5a2dd6; }
+.nav-dropdown-caret {
+  display: block;
+  width: 12px;
+  height: 12px;
+  flex-shrink: 0;
+  transition: transform 200ms ease;
+}
+.nav-dropdown.open .nav-dropdown-caret {
+  transform: rotate(180deg);
+}
+.nav-dropdown-menu {
+  display: none;
+  position: absolute;
+  top: calc(100% + var(--space-2));
+  right: 0;
+  min-width: 220px;
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-lg);
+  list-style: none;
+  padding: var(--space-2) 0;
+  margin: 0;
+  z-index: 100;
+}
+.nav-dropdown.open .nav-dropdown-menu {
+  display: block;
+}
+.nav-dropdown-menu li a {
+  display: block;
+  padding: var(--space-3) var(--space-4);
+  font-size: var(--text-sm);
+  font-weight: 500;
+  color: var(--color-text);
+  text-decoration: none;
+  white-space: nowrap;
+  transition: background var(--transition-interactive),
+              color var(--transition-interactive);
+}
+.nav-dropdown-menu li a:hover {
+  background: var(--color-surface-offset);
+  color: var(--color-accent);
+}
+
+/* ===== HERO ===== */
+.hero {
+  border-bottom: 1px solid var(--color-divider);
+  padding: clamp(var(--space-12), 6vw, var(--space-20)) var(--space-6);
+}
+.hero-inner {
+  max-width: var(--content-wide);
+  margin: 0 auto;
+}
+.hero-label {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  font-size: var(--text-xs);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--color-accent);
+  margin-bottom: var(--space-6);
+}
+.pulse-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--color-accent);
+  animation: pulse 2s ease-in-out infinite;
+}
+@keyframes pulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.4; transform: scale(0.8); }
+}
+.hero-headline {
+  font-family: var(--font-display);
+  font-size: var(--text-2xl);
+  color: var(--color-text);
+  margin-bottom: var(--space-6);
+  max-width: 20ch;
+  line-height: 1.1;
+}
+.hero-summary {
+  font-size: var(--text-base);
+  color: var(--color-text-muted);
+  max-width: 70ch;
+  line-height: 1.7;
+  margin-bottom: var(--space-6);
+}
+.hero-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-4);
+  font-size: var(--text-xs);
+  color: var(--color-text-faint);
+}
+
+/* ===== SECTIONS ===== */
+.sources-section,
+.videos-section {
+  padding: clamp(var(--space-10), 5vw, var(--space-20)) var(--space-6);
+  border-bottom: 1px solid var(--color-divider);
+}
+.sources-inner,
+.videos-inner {
+  max-width: var(--content-wide);
+  margin: 0 auto;
+}
+.section-title {
+  font-family: var(--font-display);
+  font-size: var(--text-xl);
+  margin-bottom: var(--space-2);
+}
+.section-subtitle {
+  font-size: var(--text-sm);
+  color: var(--color-text-muted);
+  margin-bottom: var(--space-8);
+}
+
+/* ===== SOURCE CARDS — Three-Tier Layout ===== */
+.source-card {
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  margin-bottom: var(--space-4);
+  overflow: hidden;
+  background: var(--color-surface);
+  transition: box-shadow var(--transition-interactive);
+}
+.source-card:hover { box-shadow: var(--shadow-md); }
+
+/* --- TIER 1: Outlet + Headline + Link --- */
+.tier-1 {
+  padding: var(--space-5) var(--space-6);
+  border-bottom: 1px solid var(--color-divider);
+}
+.source-outlet {
+  display: block;
+  font-size: var(--text-xs);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--color-accent);
+  margin-bottom: var(--space-2);
+}
+.source-headline {
+  font-family: var(--font-display);
+  font-size: var(--text-lg);
+  color: var(--color-text);
+  line-height: 1.3;
+  margin-bottom: var(--space-3);
+}
+.source-read-more {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  font-size: var(--text-sm);
+  font-weight: 600;
+  color: var(--color-link);
+  text-decoration: none;
+}
+.source-read-more:hover { color: var(--color-link-hover); }
+.source-read-more svg { flex-shrink: 0; }
+
+/* --- TIER 2: Key Points + Related Videos (always visible) --- */
+.tier-2 {
+  padding: var(--space-5) var(--space-6);
+}
+
+/* Tier labels */
+.tier-label {
+  font-size: var(--text-xs);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--color-text-faint);
+  margin-bottom: var(--space-3);
+}
+
+/* Key points list */
+.source-points {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 var(--space-5);
+}
+.source-points li {
+  position: relative;
+  padding-left: var(--space-5);
+  margin-bottom: var(--space-3);
+  font-size: var(--text-sm);
+  color: var(--color-text-muted);
+  line-height: 1.6;
+}
+.source-points li:last-child { margin-bottom: 0; }
+.source-points li::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0.55em;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--color-accent);
+  opacity: 0.5;
+}
+
+/* Unique angle */
+.source-angle {
+  font-size: var(--text-sm);
+  color: var(--color-text-muted);
+  line-height: 1.6;
+  font-style: italic;
+  margin-top: var(--space-4);
+  padding-top: var(--space-4);
+  border-top: 1px solid var(--color-divider);
+}
+
+/* --- Mini Video Cards (inside Tier 2) --- */
+.tier-2-videos {
+  margin-top: var(--space-5);
+  padding-top: var(--space-5);
+  border-top: 1px solid var(--color-divider);
+}
+.tier-2-videos-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: var(--space-3);
+}
+.mini-video-card {
+  display: flex;
+  gap: var(--space-3);
+  padding: var(--space-3);
+  background: var(--color-surface-2);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  text-decoration: none;
+  color: var(--color-text);
+  transition: border-color var(--transition-interactive),
+              box-shadow var(--transition-interactive);
+}
+.mini-video-card:hover {
+  border-color: var(--color-link);
+  box-shadow: var(--shadow-sm);
+}
+
+/* Mini video thumbnail */
+.mini-video-thumb {
+  position: relative;
+  flex-shrink: 0;
+  width: 120px;
+  height: 68px;
+  border-radius: var(--radius-sm);
+  overflow: hidden;
+  background: var(--color-surface-offset);
+}
+.mini-video-thumb img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+.mini-video-thumb--placeholder {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--color-text-faint);
+}
+.mini-video-dur {
+  position: absolute;
+  bottom: 4px;
+  right: 4px;
+  padding: 1px 5px;
+  font-size: 0.6875rem;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+  color: #fff;
+  background: rgba(0, 0, 0, 0.75);
+  border-radius: 3px;
+  line-height: 1.4;
+}
+.mini-video-info {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+  min-width: 0;
+  justify-content: center;
+}
+.mini-video-title {
+  font-size: var(--text-xs);
+  font-weight: 600;
+  color: var(--color-text);
+  line-height: 1.35;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+.mini-video-channel {
+  font-size: 0.6875rem;
+  color: var(--color-text-faint);
+  line-height: 1.3;
+}
+
+/* --- TIER 3: Expandable YouTube Assets --- */
+.tier-3 {
+  border-top: 1px solid var(--color-divider);
+}
+.tier-3-toggle {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: var(--space-4) var(--space-6);
+  font-size: var(--text-xs);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--color-text-faint);
+  cursor: pointer;
+  list-style: none;
+  user-select: none;
+  transition: color var(--transition-interactive),
+              background var(--transition-interactive);
+}
+.tier-3-toggle::-webkit-details-marker { display: none; }
+.tier-3-toggle::marker { content: ''; }
+.tier-3-toggle:hover {
+  color: var(--color-text-muted);
+  background: var(--color-surface-2);
+}
+
+.tier-3-chevron {
+  display: flex;
+  align-items: center;
+  transition: transform 300ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+.tier-3[open] .tier-3-chevron {
+  transform: rotate(180deg);
+}
+
+.tier-3-body {
+  padding: 0 var(--space-6) var(--space-6);
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+  gap: var(--space-4);
+}
+
+/* YT Block Cards (Description & Script) */
+.yt-block {
+  background: var(--color-surface-2);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  padding: var(--space-5);
+  position: relative;
+}
+.yt-block-label {
+  font-size: var(--text-xs);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--color-accent);
+  margin-bottom: var(--space-3);
+}
+.yt-block-content {
+  font-family: var(--font-body);
+  font-size: var(--text-sm);
+  color: var(--color-text-muted);
+  white-space: pre-wrap;
+  word-wrap: break-word;
+  line-height: 1.65;
+  max-height: 280px;
+  overflow-y: auto;
+  padding-right: var(--space-2);
+  margin: 0;
+}
+
+/* YT Title line (bold) */
+.yt-title-line {
+  display: block;
+  font-weight: 700;
+  color: var(--color-text);
+  font-size: var(--text-sm);
+  line-height: 1.4;
+  margin-bottom: var(--space-1);
+}
+
+/* Copy button */
+.copy-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  margin-top: var(--space-4);
+  padding: var(--space-2) var(--space-4);
+  font-size: var(--text-xs);
+  font-weight: 600;
+  color: var(--color-text-muted);
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+}
+.copy-btn:hover { color: var(--color-text); border-color: var(--color-text-faint); }
+.copy-btn.copied { color: var(--color-accent); border-color: var(--color-accent); }
+.copy-btn svg { flex-shrink: 0; }
+
+/* ===== VIDEOS GRID (Related Video section) ===== */
+.videos-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: var(--space-4);
+}
+.video-card {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  text-decoration: none;
+  color: var(--color-text);
+  display: flex;
+  flex-direction: column;
+  transition: box-shadow var(--transition-interactive),
+              border-color var(--transition-interactive);
+}
+.video-card:hover {
+  box-shadow: var(--shadow-md);
+  border-color: var(--color-link);
+}
+
+/* Video card thumbnail */
+.video-card-thumb {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  background: var(--color-surface-offset);
+  overflow: hidden;
+}
+.video-card-thumb img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+.video-card-thumb--placeholder {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--color-text-faint);
+}
+.video-card-dur {
+  position: absolute;
+  bottom: 8px;
+  right: 8px;
+  padding: 2px 6px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+  color: #fff;
+  background: rgba(0, 0, 0, 0.8);
+  border-radius: 4px;
+  line-height: 1.4;
+}
+.video-card-body {
+  padding: var(--space-4) var(--space-5);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+.video-card-title {
+  font-family: var(--font-display);
+  font-size: var(--text-base);
+  line-height: 1.3;
+  color: var(--color-text);
+}
+.video-card-meta {
+  font-size: var(--text-xs);
+  color: var(--color-text-faint);
+}
+
+/* ===== FOOTER ===== */
+.footer {
+  padding: var(--space-10) var(--space-6);
+  text-align: center;
+}
+.footer-inner {
+  max-width: var(--content-wide);
+  margin: 0 auto;
+}
+.footer p {
+  font-size: var(--text-xs);
+  color: var(--color-text-faint);
+  margin: 0 auto var(--space-3);
+  max-width: none;
+}
+.footer-links {
+  font-size: var(--text-xs);
+  color: var(--color-text-faint);
+}
+.footer-links a {
+  color: var(--color-text-muted);
+  text-decoration: none;
+}
+.footer-links a:hover { color: var(--color-text); }
+.footer-sep { margin: 0 var(--space-2); }
+
+/* ===== MOBILE ===== */
+@media (max-width: 640px) {
+  .header-inner { padding: var(--space-3) var(--space-4); }
+  .header-timestamp { display: none; }
+  .nav-dropdown-toggle span { display: none; }
+  .nav-dropdown-toggle .nav-dropdown-caret { display: none; }
+  .nav-dropdown-toggle { padding: var(--space-2); border-radius: var(--radius-md); }
+  .nav-dropdown-menu { min-width: 200px; }
+
+  .hero { padding: var(--space-8) var(--space-4); }
+  .hero-headline { font-size: clamp(1.5rem, 1rem + 3vw, 2.5rem); max-width: none; }
+
+  .sources-section, .videos-section { padding: var(--space-8) var(--space-4); }
+
+  /* Tier 1 */
+  .tier-1 { padding: var(--space-4); }
+  .source-headline { font-size: var(--text-base); }
+
+  /* Tier 2 */
+  .tier-2 { padding: var(--space-4); }
+  .tier-2-videos-grid { grid-template-columns: 1fr; }
+
+  .mini-video-card {
+    flex-direction: row;
+  }
+  .mini-video-thumb { width: 100px; height: 56px; }
+
+  /* Tier 3 */
+  .tier-3-toggle { padding: var(--space-3) var(--space-4); }
+  .tier-3-body {
+    padding: 0 var(--space-4) var(--space-4);
+    grid-template-columns: 1fr;
+  }
+
+  /* Related Video grid */
+  .videos-grid { grid-template-columns: 1fr; }
+}
+
+/* ===== SCROLLBAR ===== */
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: var(--color-border); border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: var(--color-text-faint); }
+</style>
+</head>
+<body>
+
+  <a href="#main" class="sr-only" style="position:absolute;top:0;left:0;z-index:999;padding:8px 16px;background:var(--color-accent);color:#fff;">Skip to content</a>
+
+  <!-- Header -->
+  <header class="header" id="header">
+    <div class="header-inner">
+      <div class="header-left">
+        <a href="#" class="logo" aria-label="The Thread Ahead — Home">
+          <svg width="32" height="32" viewBox="0 0 32 32" fill="none" aria-hidden="true">
+            <path d="M4 26 C8 10, 14 22, 18 8 C22 -2, 26 14, 28 6" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" fill="none"/>
+            <circle cx="28" cy="6" r="3" fill="var(--color-accent)"/>
+          </svg>
+          <span class="logo-text">The Thread Ahead</span>
+        </a>
+      </div>
+      <div class="header-right">
+        <span class="header-timestamp" id="headerTimestamp"></span>
+        <div class="nav-dropdown">
+          <button class="make-btn nav-dropdown-toggle" aria-expanded="false" aria-haspopup="true">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M3 3v18h18"/>
+              <path d="M7 16l4-8 4 5 5-6"/>
+            </svg>
+            <span>Publish</span>
+            <svg class="nav-dropdown-caret" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>
+          </button>
+          <ul class="nav-dropdown-menu">
+            <li><a href="https://app.metricool.com/" target="_blank" rel="noopener noreferrer">Metricool</a></li>
+            <li><a href="https://creator.xiaohongshu.com/publish/publish?source=official" target="_blank" rel="noopener noreferrer">Xiaohongshu Creator</a></li>
+            <li><a href="https://profile.snapchat.com/89906cc4-be5e-4f12-a58e-b9b219de3b55/profiles/58790393-f3a5-4cb6-a4cb-d0d5e11c216c/settings" target="_blank" rel="noopener noreferrer">Snapchat Profile Settings</a></li>
+          </ul>
+        </div>
+        <button data-theme-toggle aria-label="Switch to light mode">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main -->
+  <main id="main">
+
+    <!-- Hero -->
+    <section class="hero">
+      <div class="hero-inner">
+        <div class="hero-label">
+          <span class="pulse-dot"></span>
+          <span>Breaking News</span>
+        </div>
+        <h1 class="hero-headline" id="heroHeadline"></h1>
+        <p class="hero-summary" id="heroSummary"></p>
+        <div class="hero-meta">
+          <span class="hero-geo" id="heroGeo"></span>
+          <span class="hero-time" id="heroTime"></span>
+        </div>
+      </div>
+    </section>
+
+    <!-- Source Articles (Three-Tier) -->
+    <section class="sources-section">
+      <div class="sources-inner">
+        <h2 class="section-title">Coverage Across Outlets</h2>
+        <p class="section-subtitle">Five major newsrooms. One story. Different angles.</p>
+        <div class="sources-list" id="sourcesList">
+          <!-- JS renders three-tier cards here -->
+        </div>
+      </div>
+    </section>
+
+    <!-- Videos Section -->
+    <section class="videos-section">
+      <div class="videos-inner">
+        <h2 class="section-title">Related Video</h2>
+        <p class="section-subtitle">Reporting and analysis from major news channels</p>
+        <div class="videos-grid" id="videosGrid"></div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="footer-inner">
+      <p>Data aggregated from Reuters, Al Jazeera, BBC, CNN, and The Washington Post.</p>
+      <div class="footer-links">
+        <a href="https://app.metricool.com/" target="_blank" rel="noopener noreferrer">Powered by Metricool</a>
+        <span class="footer-sep">&middot;</span>
+        <a href="https://www.perplexity.ai/computer" target="_blank" rel="noopener noreferrer">Created with Perplexity Computer</a>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+// ===== NEWS DATA =====
+const DATA = {
+  "story": {
+    "headline": "Iran Vows to Keep Strait of Hormuz Closed as Oil Tops $100 and Trump Demands Allied Warships",
+    "time_window": "60 minutes",
+    "detected_event_time": "2026-03-15T15:00:00Z",
+    "summary": "Iran declared the Strait of Hormuz closed indefinitely on Sunday, the most significant escalation of the three-week-old U.S.-Israeli military campaign against Tehran. Supreme Leader Mojtaba Khamenei said the blockade would remain in place as leverage against Washington. Brent crude settled above $103 a barrel. The International Energy Agency authorized the release of 400 million barrels from emergency reserves \u2014 the largest coordinated drawdown in the agency\u2019s history \u2014 but prices held firm. President Trump called on allied nations to deploy warships to force the strait open. No country has committed vessels. Roughly 20 million barrels of oil per day normally transit the waterway, accounting for one-fifth of global supply. More than 2,000 people have been killed since the conflict began on February 28.",
+    "geo_focus": "Middle East / Global"
+  },
+  "sources": [
+    {
+      "outlet_name": "Reuters",
+      "headline": "Trump calls for allies to help secure Strait of Hormuz as Iran vows to step up retaliation",
+      "url": "https://www.reuters.com/world/middle-east/trump-calls-allies-help-secure-strait-hormuz-iran-vows-step-up-retaliation-2026-03-15/",
+      "key_points": [
+        "Trump threatened additional strikes on Kharg Island, Iran\u2019s primary crude export terminal, and demanded allied nations deploy warships to reopen the Strait of Hormuz.",
+        "Iran\u2019s Revolutionary Guards fired missiles and drones at Israeli territory and U.S. military bases across the region. Tehran warned of further retaliation if energy infrastructure is targeted.",
+        "The IEA reported an 8% reduction in global oil supply for March. Brent crude remained above $100 per barrel.",
+        "The death toll surpassed 2,000 since hostilities began on February 28, concentrated in Iran and Lebanon.",
+        "No allied nation has committed warships. France and Britain said they are in discussions but have taken no concrete action."
+      ],
+      "unique_angle": "Reuters reported Trump told NBC he \u2018may hit a few more times just for fun,\u2019 underscoring the domestic political risk as rising gas prices threaten Republican midterm prospects.",
+      "videos": [
+        { "title": "Iran Threatens New Targets as US Aims to Tame Oil Prices", "channel": "Bloomberg Television", "url": "https://www.youtube.com/watch?v=i8W22OLdj4U", "approx_duration_seconds": 5503 },
+        { "title": "Iran War: US, other countries sending warships to Strait of Hormuz", "channel": "LiveNOW from FOX", "url": "https://www.youtube.com/watch?v=7wc9691_Mb4", "approx_duration_seconds": 274 }
+      ],
+      "yt_description": "Title: Trump Threatens to Bomb Iran\u2019s Oil Hub \u2018For Fun\u2019 \u2014 No Allied Nation Has Sent Warships\n\nTrump just threatened to bomb Kharg Island again \u2014 Iran\u2019s primary crude export terminal \u2014 and told NBC he might do it \u2018just for fun.\u2019 Those are his words. He is now demanding that the UK, France, Japan, and South Korea deploy warships to force the Strait of Hormuz back open. Not one country has said yes. Iran\u2019s Revolutionary Guards fired missiles and drones at Israeli territory and U.S. military bases across the region. Oil is above $100 a barrel. The IEA says global supply dropped 8% this month alone. Over 2,000 people are dead in three weeks.\n\nHere\u2019s the part that makes this a domestic crisis, not just a foreign one. Gas prices are surging right into midterm season. Republican candidates are about to campaign with $4-plus gas and no ceasefire in sight. France and Britain say they\u2019re \u2018in discussions\u2019 \u2014 that\u2019s diplomat-speak for nothing is happening. No allies committed. No off-ramp. And every day the strait stays closed, the cost goes up for every American filling a tank.\n\n#IranWar #StraitOfHormuz #OilCrisis #Trump #BreakingNews",
+      "yt_script": "Trump just said he might bomb Iran\u2019s biggest oil terminal again \u2014 quote \u2014 \u2018for fun.\u2019\n\nThat terminal is Kharg Island. It handles the majority of Iran\u2019s crude exports. He\u2019s also demanding that the UK, France, Japan, and South Korea send warships to force the Strait of Hormuz back open. Not one country has said yes.\n\nIran isn\u2019t backing down. The Revolutionary Guards launched missiles and drones at Israel and at U.S. bases this week. Tehran\u2019s message is simple: touch our oil infrastructure, we escalate.\n\nThe numbers are brutal. Global oil supply is down 8% this month. Crude is above $100 a barrel. Over 2,000 people are dead. France and Britain say they\u2019re \u2018in discussions.\u2019 That means nothing is happening.\n\nHere\u2019s the part nobody\u2019s talking about. Gas prices are surging right into midterm season. Republican candidates are about to campaign with $4-plus gas. That\u2019s a political problem with no military solution.\n\nNo allies committed. No ceasefire. No off-ramp. Stay locked in."
+    },
+    {
+      "outlet_name": "Al Jazeera",
+      "headline": "Strategic oil release may calm markets but cannot fix Hormuz disruption",
+      "url": "https://www.aljazeera.com/economy/2026/3/15/strategic-oil-release-may-calm-markets-but-cannot-fix-hormuz-disruption",
+      "key_points": [
+        "The IEA released 400 million barrels from strategic reserves \u2014 the largest coordinated withdrawal in the agency\u2019s history. Prices did not fall.",
+        "Shipping through the Strait of Hormuz dropped below 10% of pre-war volumes, effectively halting 20 million barrels per day.",
+        "Analysts attributed roughly 40% of the current price premium to geopolitical risk tied to the Hormuz closure, separate from supply fundamentals.",
+        "QatarEnergy, Kuwait Petroleum, and Bapco declared force majeure and suspended operations."
+      ],
+      "unique_angle": "Al Jazeera quoted analysts calling the reserve release a \u2018minor bandage on a significant wound\u2019 and focused on the structural limits of emergency stockpiles against a sustained chokepoint closure.",
+      "videos": [
+        { "title": "What is force majeure and why are some Gulf countries invoking it?", "channel": "Al Jazeera", "url": "https://www.aljazeera.com/video/newsfeed/2026/3/15/what-is-force-majeure-and-why-are-some-gulf-countries-invoking-it", "approx_duration_seconds": 176 },
+        { "title": "Iran says Strait of Hormuz will not be reopened to US ships", "channel": "Al Jazeera", "url": "https://www.aljazeera.com/video/newsfeed/2026/3/14/iran-says-strait-of-hormuz-will-not-be-reopened-to-us-ships", "approx_duration_seconds": 54 }
+      ],
+      "yt_description": "Title: World\u2019s Largest Emergency Oil Release Just Failed \u2014 400 Million Barrels and Prices Didn\u2019t Move\n\n400 million barrels. That\u2019s what the IEA just released from global strategic reserves \u2014 the largest coordinated drawdown in history. Prices didn\u2019t drop a cent. The Strait of Hormuz is running at less than 10% of normal capacity. Twenty million barrels a day used to move through that waterway. Now almost nothing does. QatarEnergy, Kuwait Petroleum, and Bapco have declared force majeure \u2014 legal language for \u2018we physically cannot deliver what we owe you.\u2019\n\nAnalysts say 40% of the current price premium is not about supply fundamentals. It is pure geopolitical fear. The market is pricing in the possibility that this gets worse. Those 400 million barrels cover roughly four days of global oil demand. Four days. That\u2019s the cushion between where we are and a full-blown energy crisis. The blockade has no end date. Iran says the strait stays closed. The reserves are finite. The disruption is not.\n\n#OilCrisis #StraitOfHormuz #ForceMajeure #IranWar #EnergyCrisis",
+      "yt_script": "400 million barrels. That\u2019s how much the IEA just released from emergency reserves. Biggest drawdown in history. Prices didn\u2019t drop a cent.\n\nThe Strait of Hormuz is operating at less than 10% of normal volume. Twenty million barrels a day used to move through that waterway. Now almost nothing does. Gulf energy companies \u2014 QatarEnergy, Kuwait Petroleum, Bapco \u2014 declared force majeure. They\u2019re telling the world: we physically cannot ship what we owe you.\n\nHere\u2019s the number that matters. Analysts say 40% of the current price premium isn\u2019t about actual supply. It\u2019s geopolitical fear. The market is pricing in the possibility that this gets worse.\n\nThose 400 million barrels? They cover roughly four days of global oil demand. Four days. That\u2019s the cushion between where we are and a full-blown energy crisis.\n\nThe strait has no reopening date. Iran says it stays closed. The reserves are finite. The disruption is not. This is not over."
+    },
+    {
+      "outlet_name": "BBC",
+      "headline": "UK looking at all options to secure Strait of Hormuz, says Ed Miliband",
+      "url": "https://www.bbc.com/news/articles/cj0dlvl086eo",
+      "key_points": [
+        "UK Energy Secretary Ed Miliband said Britain is evaluating \u2018various options\u2019 including mine-hunting drones and naval coordination with the United States.",
+        "Sixteen vessels have been attacked near the strait since the conflict began on February 28.",
+        "Oil prices surged from $71 per barrel before the conflict to a peak near $120. Brent settled last week above $103.",
+        "Iran\u2019s Foreign Minister said the strait remains open to non-hostile nations and expressed willingness to negotiate safe passage.",
+        "U.S. B-1 bombers departed RAF Fairford on Sunday for strike missions against Iranian targets."
+      ],
+      "unique_angle": "The BBC focused on the UK\u2019s political tension: London authorized \u2018defensive\u2019 U.S. operations from British bases while resisting deeper involvement. Trump publicly dismissed Prime Minister Starmer, saying he is \u2018no Winston Churchill.\u2019",
+      "videos": [
+        { "title": "Why can\u2019t the U.S. just take over the Strait of Hormuz?", "channel": "CBC News", "url": "https://www.cbc.ca/player/play/video/9.7126738", "approx_duration_seconds": 657 },
+        { "title": "Iran war: If Hormuz stays closed, the world pays the price", "channel": "DW News", "url": "https://www.dw.com/en/iran-war-if-hormuz-stays-closed-the-world-pays-the-price/video-76355649", "approx_duration_seconds": 666 }
+      ],
+      "yt_description": "Title: UK Lets U.S. Bombers Fly From British Soil to Hit Iran \u2014 Then Calls It \u2018Defensive\u2019\n\nU.S. B-1 bombers departed RAF Fairford on Sunday headed for Iranian targets. Britain authorized the strikes from its own air base and is calling the operation \u2018defensive.\u2019 That word is doing a lot of heavy lifting. Sixteen vessels have been attacked in or near the Strait of Hormuz since February 28. Oil swung from $71 to a peak near $120 a barrel in three weeks. Ed Miliband says the UK is evaluating mine-hunting drones and naval coordination with Washington. Iran\u2019s foreign minister says the strait remains open \u2014 just not to hostile nations.\n\nTrump made it personal. He told reporters Starmer is \u2018no Winston Churchill\u2019 and said the U.S. does not need British carriers. The UK is stuck \u2014 too involved to stay neutral, too cautious to fully commit. And every day the strait stays closed, the cost of that ambiguity climbs. Britain is trying to walk a line that does not exist anymore. This is where alliances either hold or fracture.\n\n#UK #StraitOfHormuz #IranWar #OilPrices #Geopolitics",
+      "yt_script": "U.S. B-1 bombers left a British air base on Sunday headed for Iran. The UK is calling it a \u2018defensive\u2019 operation.\n\nThat word is doing a lot of heavy lifting. Britain authorized strikes from RAF Fairford while telling the public it opposes regime change. Now it\u2019s weighing whether to send mine-hunting drones or warships to the Strait of Hormuz.\n\nSixteen vessels have been attacked in or near the strait since February 28. Oil swung from $71 to $120 a barrel in three weeks. Iran\u2019s foreign minister says the waterway is open to non-enemy ships. In practice, almost nobody is willing to test that.\n\nTrump made it personal. He told reporters Starmer is \u2018no Winston Churchill\u2019 and said the U.S. doesn\u2019t need British carriers. That\u2019s not diplomacy. That\u2019s a dare.\n\nThe UK is stuck. Too involved to stay neutral, too cautious to commit. And every day the strait stays closed, the cost of that ambiguity goes up.\n\nWatch this space."
+    },
+    {
+      "outlet_name": "CNN",
+      "headline": "What we know on the 16th day of the US and Israel\u2019s war with Iran",
+      "url": "https://www.cnn.com",
+      "key_points": [
+        "Trump declared the U.S. has \u2018decimated Iran\u2019 and renewed demands for allied warships to secure the Strait of Hormuz.",
+        "Senator Cory Booker called for congressional accountability, arguing both parties enabled unchecked presidential war authority.",
+        "Six U.S. airmen died when a KC-135 tanker aircraft crashed in western Iraq, raising total U.S. military casualties.",
+        "The Federal Reserve confronted what analysts described as the worst oil-driven economic shock in decades.",
+        "Formula 1 cancelled all Middle East races. A Kuwaiti professional footballer was killed in an Iranian drone strike."
+      ],
+      "unique_angle": "CNN highlighted domestic political fractures \u2014 Booker\u2019s demand for war powers reform, Buttigieg on military losses \u2014 and the economic ripple effects reaching airline pricing and Federal Reserve policy.",
+      "videos": [
+        { "title": "Iran Threatens New Targets as US Aims to Tame Oil Prices", "channel": "Bloomberg Television", "url": "https://www.youtube.com/watch?v=i8W22OLdj4U", "approx_duration_seconds": 5503 },
+        { "title": "Global National: March 14, 2026", "channel": "Global News", "url": "https://www.youtube.com/watch?v=-GCpJZgk8PU", "approx_duration_seconds": 1286 }
+      ],
+      "yt_description": "Title: Six U.S. Airmen Dead in Iraq \u2014 Day 16 of the Iran War With No Ceasefire and No Plan\n\nSix American airmen are dead after a KC-135 tanker crashed in western Iraq on a mission tied to this war. Trump says the U.S. has \u2018decimated\u2019 Iran. Senator Cory Booker is demanding Congress take back its war powers \u2014 something both parties have been giving away for decades. The Federal Reserve is now managing monetary policy around the worst oil-driven economic shock since the 1970s. Plane tickets are climbing. Consumer prices are climbing. The damage is no longer theoretical.\n\nFormula 1 cancelled every race in the Middle East. A 33-year-old Kuwaiti professional footballer was killed by an Iranian drone strike. This conflict is not contained and it is not regional anymore. No ceasefire talks. No allied ships deployed. No congressional vote on authorization. Three weeks in and the only thing accelerating is the cost \u2014 in money, in lives, and in political capital nobody can afford to spend.\n\n#IranWar #WarPowers #FederalReserve #OilShock #USMilitary",
+      "yt_script": "Six American airmen are dead. Their tanker crashed in western Iraq on a mission tied to this war.\n\nThat\u2019s where we are on day 16. Trump says the U.S. has \u2018decimated\u2019 Iran. Senator Booker says Congress needs to take back its war authority \u2014 something both parties have been giving away for decades. He\u2019s not wrong.\n\nThe Federal Reserve is now managing monetary policy around the worst oil shock since the 1970s. Plane tickets are climbing. Consumer prices are climbing. The economic damage is no longer theoretical.\n\nAnd then there\u2019s the stuff that tells you how far this has spread. Formula 1 cancelled every race in the Middle East. A Kuwaiti footballer \u2014 33 years old \u2014 was killed by an Iranian drone strike. This isn\u2019t contained. It\u2019s not regional anymore.\n\nNo ceasefire talks. No allied ships deployed. No congressional vote on authorization. Three weeks in and the only thing accelerating is the cost.\n\nThis is not over."
+    },
+    {
+      "outlet_name": "The Washington Post",
+      "headline": "Why China could emerge a winner from Trump\u2019s global energy shock",
+      "url": "https://www.washingtonpost.com/business/2026/03/13/china-winner-iran-energy-oil/",
+      "key_points": [
+        "China held approximately 1.3 billion barrels of oil in strategic reserves, sufficient to cover more than six months of Strait of Hormuz disruptions.",
+        "More than one-third of China\u2019s electricity was generated from solar, wind, and hydropower, reducing its exposure to imported fossil fuels.",
+        "The majority of new vehicles sold in China were electric, further insulating the economy from crude price spikes.",
+        "The crisis stood to increase global demand for Chinese-manufactured batteries, solar panels, and critical minerals."
+      ],
+      "unique_angle": "The Post argued the crisis inadvertently strengthened China\u2019s strategic position: sustained investment in renewables, electric vehicles, and oil stockpiling left Beijing better prepared than either the U.S. or Europe for a prolonged energy disruption.",
+      "videos": [
+        { "title": "Iran war: If Hormuz stays closed, the world pays the price", "channel": "DW News", "url": "https://www.dw.com/en/iran-war-if-hormuz-stays-closed-the-world-pays-the-price/video-76355649", "approx_duration_seconds": 666 },
+        { "title": "Iran War: US, other countries sending warships to Strait of Hormuz", "channel": "LiveNOW from FOX", "url": "https://www.youtube.com/watch?v=7wc9691_Mb4", "approx_duration_seconds": 274 }
+      ],
+      "yt_description": "Title: China Has 1.3 Billion Barrels in Reserve and a Grid Running on Renewables \u2014 This Crisis Is Their Sales Pitch\n\nChina has 1.3 billion barrels of oil sitting in strategic reserves. That is six months of Strait of Hormuz coverage. Nobody else is close. A third of China\u2019s electricity comes from solar, wind, and hydropower. The majority of new vehicles sold in China are electric. While the U.S. drains its strategic petroleum reserve and Europe watches prices spike, Beijing is in a fundamentally different position.\n\nThis is not an accident. China spent a decade building massive reserves, renewable capacity, and EV dominance. Every day this crisis drags on, the case for Chinese-made solar panels, batteries, and critical minerals gets stronger. The world is watching fossil fuel supply chains collapse in real time. China is the country selling the alternative. The war in Iran was supposed to be Beijing\u2019s nightmare. It is turning into their best sales pitch.\n\n#China #EnergyCrisis #OilShock #Renewables #IranWar",
+      "yt_script": "China has 1.3 billion barrels of oil sitting in reserve. That\u2019s six months of Hormuz coverage. Nobody else is close.\n\nWhile the U.S. drains its strategic petroleum reserve and Europe watches prices spike, Beijing is in a fundamentally different position. A third of China\u2019s electricity comes from solar, wind, and hydro. Most new cars sold in China are electric. Natural gas makes up just 4% of their power generation.\n\nThis is not an accident. China spent a decade building this. Massive reserves. Renewable capacity. EV dominance. Coal plants on standby if things get desperate. They hedged against exactly this scenario.\n\nNow here\u2019s the part that should worry Washington. Every day this crisis drags on, the case for Chinese-made solar panels, batteries, and critical minerals gets stronger. The world is watching fossil fuel supply chains collapse in real time. China is the country selling the alternative.\n\nThe war in Iran was supposed to be China\u2019s nightmare. It\u2019s turning into their sales pitch.\n\nStay locked in."
+    }
+  ],
+  "videos": [
+    {
+      "title": "Iran Threatens New Targets as US Aims to Tame Oil Prices",
+      "channel": "Bloomberg Television",
+      "url": "https://www.youtube.com/watch?v=i8W22OLdj4U",
+      "approx_duration_seconds": 5503
+    },
+    {
+      "title": "Iran War: US, other countries sending warships to Strait of Hormuz",
+      "channel": "LiveNOW from FOX",
+      "url": "https://www.youtube.com/watch?v=7wc9691_Mb4",
+      "approx_duration_seconds": 274
+    },
+    {
+      "title": "Why can\u2019t the U.S. just take over the Strait of Hormuz?",
+      "channel": "CBC News",
+      "url": "https://www.cbc.ca/player/play/video/9.7126738",
+      "approx_duration_seconds": 657
+    },
+    {
+      "title": "Iran war: If Hormuz stays closed, the world pays the price",
+      "channel": "DW News",
+      "url": "https://www.dw.com/en/iran-war-if-hormuz-stays-closed-the-world-pays-the-price/video-76355649",
+      "approx_duration_seconds": 666
+    },
+    {
+      "title": "What is force majeure and why are some Gulf countries invoking it?",
+      "channel": "Al Jazeera",
+      "url": "https://www.aljazeera.com/video/newsfeed/2026/3/15/what-is-force-majeure-and-why-are-some-gulf-countries-invoking-it",
+      "approx_duration_seconds": 176
+    },
+    {
+      "title": "Iran says Strait of Hormuz will not be reopened to US ships",
+      "channel": "Al Jazeera",
+      "url": "https://www.aljazeera.com/video/newsfeed/2026/3/14/iran-says-strait-of-hormuz-will-not-be-reopened-to-us-ships",
+      "approx_duration_seconds": 54
+    }
+  ]
+};
+
+// ===== HELPERS =====
+function formatDuration(seconds) {
+  if (!seconds || seconds <= 0) return '';
+  const h = Math.floor(seconds / 3600);
+  const m = Math.floor((seconds % 3600) / 60);
+  const s = seconds % 60;
+  if (h > 0) return h + ':' + String(m).padStart(2, '0') + ':' + String(s).padStart(2, '0');
+  return m + ':' + String(s).padStart(2, '0');
+}
+
+function formatTimestamp(iso) {
+  if (!iso) return '';
+  const d = new Date(iso);
+  return d.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric', hour: 'numeric', minute: '2-digit', timeZoneName: 'short' });
+}
+
+function getYouTubeId(url) {
+  if (!url) return null;
+  const m = url.match(/(?:youtube\.com\/watch\?v=|youtu\.be\/)([a-zA-Z0-9_-]{11})/);
+  return m ? m[1] : null;
+}
+
+function getThumbnailUrl(videoUrl) {
+  const id = getYouTubeId(videoUrl);
+  if (id) return 'https://img.youtube.com/vi/' + id + '/hqdefault.jpg';
+  return null;
+}
+
+function formatYtDescription(text) {
+  if (!text) return '';
+  // Split into lines, bold the Title: line, preserve paragraph breaks
+  var lines = text.split('\n');
+  var html = '';
+  for (var i = 0; i < lines.length; i++) {
+    var line = lines[i];
+    if (line.match(/^Title:\s/)) {
+      html += '<strong class="yt-title-line">' + escapeHtml(line) + '</strong>\n';
+    } else {
+      html += escapeHtml(line) + '\n';
+    }
+  }
+  return html.trim();
+}
+
+function escapeHtml(str) {
+  return str.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+}
+
+const chevronSvg = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>';
+const playSvg = '<svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><polygon points="5,3 19,12 5,21"/></svg>';
+const copySvg = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>';
+const externalSvg = '<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17l9.2-9.2M17 17V7H7"/></svg>';
+
+// ===== RENDER =====
+function render() {
+  // Hero
+  document.getElementById('heroHeadline').textContent = DATA.story.headline;
+  document.getElementById('heroSummary').textContent = DATA.story.summary;
+  document.getElementById('heroGeo').textContent = DATA.story.geo_focus;
+  document.getElementById('heroTime').textContent = formatTimestamp(DATA.story.detected_event_time);
+  document.getElementById('headerTimestamp').textContent = formatTimestamp(DATA.story.detected_event_time);
+
+  // Sources — Three-Tier Layout
+  const sourcesList = document.getElementById('sourcesList');
+  sourcesList.innerHTML = '';
+
+  DATA.sources.forEach(function(source) {
+    const card = document.createElement('article');
+    card.className = 'source-card';
+
+    // === TIER 1: Headline ===
+    const tier1 = document.createElement('div');
+    tier1.className = 'tier-1';
+    tier1.innerHTML =
+      '<span class="source-outlet">' + source.outlet_name + '</span>' +
+      '<h3 class="source-headline">' + source.headline + '</h3>' +
+      '<a href="' + source.url + '" target="_blank" rel="noopener noreferrer" class="source-read-more">Read full article ' + externalSvg + '</a>';
+    card.appendChild(tier1);
+
+    // === TIER 2: Key Points + Related Videos (always visible) ===
+    const tier2 = document.createElement('div');
+    tier2.className = 'tier-2';
+
+    // Key Points
+    const pointsBlock = document.createElement('div');
+    pointsBlock.className = 'tier-2-points';
+    const pointsTitle = document.createElement('div');
+    pointsTitle.className = 'tier-label';
+    pointsTitle.textContent = 'Key Points';
+    pointsBlock.appendChild(pointsTitle);
+    const pointsList = document.createElement('ul');
+    pointsList.className = 'source-points';
+    source.key_points.forEach(function(pt) {
+      const li = document.createElement('li');
+      li.textContent = pt;
+      pointsList.appendChild(li);
+    });
+    pointsBlock.appendChild(pointsList);
+
+    // Unique angle
+    const angleDiv = document.createElement('div');
+    angleDiv.className = 'source-angle';
+    angleDiv.textContent = source.unique_angle;
+    pointsBlock.appendChild(angleDiv);
+
+    tier2.appendChild(pointsBlock);
+
+    // Related Videos with thumbnails
+    if (source.videos && source.videos.length > 0) {
+      const videosBlock = document.createElement('div');
+      videosBlock.className = 'tier-2-videos';
+      const videosTitle = document.createElement('div');
+      videosTitle.className = 'tier-label';
+      videosTitle.textContent = 'Related Videos';
+      videosBlock.appendChild(videosTitle);
+
+      const videosRow = document.createElement('div');
+      videosRow.className = 'tier-2-videos-grid';
+      source.videos.forEach(function(v) {
+        const vCard = document.createElement('a');
+        vCard.className = 'mini-video-card';
+        vCard.href = v.url;
+        vCard.target = '_blank';
+        vCard.rel = 'noopener noreferrer';
+        const thumb = getThumbnailUrl(v.url);
+        const dur = formatDuration(v.approx_duration_seconds);
+        vCard.innerHTML =
+          (thumb
+            ? '<div class="mini-video-thumb"><img src="' + thumb + '" alt="" loading="lazy"><span class="mini-video-dur">' + dur + '</span></div>'
+            : '<div class="mini-video-thumb mini-video-thumb--placeholder">' + playSvg + '<span class="mini-video-dur">' + dur + '</span></div>') +
+          '<div class="mini-video-info">' +
+            '<span class="mini-video-title">' + v.title + '</span>' +
+            '<span class="mini-video-channel">' + v.channel + '</span>' +
+          '</div>';
+        videosRow.appendChild(vCard);
+      });
+      videosBlock.appendChild(videosRow);
+      tier2.appendChild(videosBlock);
+    }
+
+    card.appendChild(tier2);
+
+    // === TIER 3: Expandable YouTube Assets ===
+    const tier3 = document.createElement('details');
+    tier3.className = 'tier-3';
+    const tier3Summary = document.createElement('summary');
+    tier3Summary.className = 'tier-3-toggle';
+    tier3Summary.innerHTML = '<span class="tier-3-chevron">' + chevronSvg + '</span> YouTube Assets';
+    tier3.appendChild(tier3Summary);
+
+    const tier3Body = document.createElement('div');
+    tier3Body.className = 'tier-3-body';
+
+    // YT Description
+    const descBlock = document.createElement('div');
+    descBlock.className = 'yt-block';
+    const descLabel = document.createElement('div');
+    descLabel.className = 'yt-block-label';
+    descLabel.textContent = 'YouTube Description';
+    descBlock.appendChild(descLabel);
+    const descContent = document.createElement('div');
+    descContent.className = 'yt-block-content';
+    descContent.innerHTML = formatYtDescription(source.yt_description);
+    descBlock.appendChild(descContent);
+    const descCopy = document.createElement('button');
+    descCopy.className = 'copy-btn';
+    descCopy.innerHTML = copySvg + ' <span>Copy</span>';
+    descCopy.addEventListener('click', function() { copyText(source.yt_description, descCopy); });
+    descBlock.appendChild(descCopy);
+    tier3Body.appendChild(descBlock);
+
+    // YT Script
+    const scriptBlock = document.createElement('div');
+    scriptBlock.className = 'yt-block';
+    const scriptLabel = document.createElement('div');
+    scriptLabel.className = 'yt-block-label';
+    scriptLabel.textContent = '90-Second Script';
+    scriptBlock.appendChild(scriptLabel);
+    const scriptPre = document.createElement('pre');
+    scriptPre.className = 'yt-block-content';
+    scriptPre.textContent = source.yt_script;
+    scriptBlock.appendChild(scriptPre);
+    const scriptCopy = document.createElement('button');
+    scriptCopy.className = 'copy-btn';
+    scriptCopy.innerHTML = copySvg + ' <span>Copy</span>';
+    scriptCopy.addEventListener('click', function() { copyText(source.yt_script, scriptCopy); });
+    scriptBlock.appendChild(scriptCopy);
+    tier3Body.appendChild(scriptBlock);
+
+    tier3.appendChild(tier3Body);
+    card.appendChild(tier3);
+
+    sourcesList.appendChild(card);
+  });
+
+  // Videos Grid (with thumbnails)
+  const videosGrid = document.getElementById('videosGrid');
+  videosGrid.innerHTML = '';
+  DATA.videos.forEach(function(v) {
+    const card = document.createElement('a');
+    card.className = 'video-card';
+    card.href = v.url;
+    card.target = '_blank';
+    card.rel = 'noopener noreferrer';
+    const thumb = getThumbnailUrl(v.url);
+    const dur = formatDuration(v.approx_duration_seconds);
+    card.innerHTML =
+      (thumb
+        ? '<div class="video-card-thumb"><img src="' + thumb + '" alt="" loading="lazy"><span class="video-card-dur">' + dur + '</span></div>'
+        : '<div class="video-card-thumb video-card-thumb--placeholder">' + playSvg + '<span class="video-card-dur">' + dur + '</span></div>') +
+      '<div class="video-card-body">' +
+        '<div class="video-card-title">' + v.title + '</div>' +
+        '<div class="video-card-meta">' + v.channel + '</div>' +
+      '</div>';
+    videosGrid.appendChild(card);
+  });
+}
+
+// ===== COPY =====
+function copyText(text, btn) {
+  navigator.clipboard.writeText(text).then(function() {
+    markCopied(btn);
+  }).catch(function() {
+    var ta = document.createElement('textarea');
+    ta.value = text;
+    ta.style.cssText = 'position:fixed;left:-9999px';
+    document.body.appendChild(ta);
+    ta.select();
+    document.execCommand('copy');
+    document.body.removeChild(ta);
+    markCopied(btn);
+  });
+}
+
+function markCopied(btn) {
+  btn.classList.add('copied');
+  btn.querySelector('span').textContent = 'Copied';
+  setTimeout(function() {
+    btn.classList.remove('copied');
+    btn.querySelector('span').textContent = 'Copy';
+  }, 2000);
+}
+
+// ===== NAV DROPDOWN =====
+(function(){
+  var dd = document.querySelector('.nav-dropdown');
+  if (!dd) return;
+  var btn = dd.querySelector('.nav-dropdown-toggle');
+  btn.addEventListener('click', function(e) {
+    e.stopPropagation();
+    var isOpen = dd.classList.toggle('open');
+    btn.setAttribute('aria-expanded', isOpen);
+  });
+  document.addEventListener('click', function(e) {
+    if (!dd.contains(e.target)) {
+      dd.classList.remove('open');
+      btn.setAttribute('aria-expanded', 'false');
+    }
+  });
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') {
+      dd.classList.remove('open');
+      btn.setAttribute('aria-expanded', 'false');
+    }
+  });
+})();
+
+// ===== THEME TOGGLE =====
+(function(){
+  var t = document.querySelector('[data-theme-toggle]');
+  var r = document.documentElement;
+  var d = matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+  r.setAttribute('data-theme', d);
+  if (t) {
+    updateToggleIcon(t, d);
+    t.addEventListener('click', function() {
+      d = d === 'dark' ? 'light' : 'dark';
+      r.setAttribute('data-theme', d);
+      t.setAttribute('aria-label', 'Switch to ' + (d === 'dark' ? 'light' : 'dark') + ' mode');
+      updateToggleIcon(t, d);
+    });
+  }
+})();
+
+function updateToggleIcon(btn, theme) {
+  if (theme === 'dark') {
+    btn.innerHTML = '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>';
+  } else {
+    btn.innerHTML = '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>';
+  }
+}
+
+// ===== INIT =====
+render();
+</script>
+</body>
+</html>
